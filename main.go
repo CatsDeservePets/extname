@@ -15,7 +15,7 @@ var (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: %s [-a] [-d] path [path ...]\n", progName)
+	fmt.Fprintf(os.Stderr, "usage: %s [-a] [-d] string [...]\n", progName)
 	flag.PrintDefaults()
 	os.Exit(2)
 }

@@ -11,7 +11,7 @@ go install github.com/CatsDeservePets/extname@latest
 ## Usage
 
 ```
-usage: extname [-a] [-d] path [path ...]
+usage: extname [-a] [-d] string [...]
   -a	print all extension segments (e.g. .tar.gz)
   -d	print the extension without a leading dot
 ```
