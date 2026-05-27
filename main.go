@@ -12,10 +12,11 @@ var (
 	progName = strings.TrimSuffix(filepath.Base(os.Args[0]), ".exe")
 	allExts  = flag.Bool("a", false, "print all extension segments (e.g. .tar.gz)")
 	dropDot  = flag.Bool("d", false, "print the extension without a leading dot")
+	zero     = flag.Bool("z", false, "end each output line with NUL, not newline")
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: %s [-a] [-d] string [...]\n", progName)
+	fmt.Fprintf(os.Stderr, "usage: %s [-a] [-d] [-z] string [...]\n", progName)
 	flag.PrintDefaults()
 	os.Exit(2)
 }
@@ -27,8 +28,13 @@ func main() {
 		flag.Usage()
 	}
 
+	delim := "\n"
+	if *zero {
+		delim = "\x00"
+	}
+
 	for _, p := range flag.Args() {
-		fmt.Println(Extension(p, *allExts, *dropDot))
+		fmt.Print(Extension(p, *allExts, *dropDot), delim)
 	}
 }
 
