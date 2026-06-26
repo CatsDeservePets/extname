@@ -9,14 +9,13 @@ import (
 )
 
 var (
-	progName = strings.TrimSuffix(filepath.Base(os.Args[0]), ".exe")
-	allExts  = flag.Bool("a", false, "print all extension segments (e.g. .tar.gz)")
-	dropDot  = flag.Bool("d", false, "print the extension without a leading dot")
-	zero     = flag.Bool("z", false, "end each output line with NUL, not newline")
+	allExts = flag.Bool("a", false, "print all extension segments (e.g. .tar.gz)")
+	dropDot = flag.Bool("d", false, "print the extension without a leading dot")
+	zero    = flag.Bool("z", false, "end each output line with NUL, not newline")
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: %s [-a] [-d] [-z] string [...]\n", progName)
+	fmt.Fprintln(os.Stderr, "usage: extname [-a] [-d] [-z] string [...]")
 	flag.PrintDefaults()
 	os.Exit(2)
 }
