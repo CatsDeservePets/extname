@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -32,9 +33,28 @@ func main() {
 		delim = "\x00"
 	}
 
-	for _, p := range flag.Args() {
+	args := flag.Args()
+	// Windows gives us the pattern, not the files. Very enterprise.
+	if runtime.GOOS == "windows" {
+		args = expandGlobs(args)
+	}
+	for _, p := range args {
 		fmt.Print(Extension(p, *allExts, *dropDot), delim)
 	}
+}
+
+// expandGlobs expands wildcards in args using [filepath.Glob].
+// If an argument returns no matches, it is left unchanged.
+func expandGlobs(args []string) []string {
+	out := make([]string, 0, len(args))
+	for _, pattern := range args {
+		if matches, _ := filepath.Glob(pattern); len(matches) > 0 {
+			out = append(out, matches...)
+		} else {
+			out = append(out, pattern)
+		}
+	}
+	return out
 }
 
 // Extension returns the file extension of path.
